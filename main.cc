@@ -5,10 +5,10 @@
 #include "simulation.h"
 
 #ifdef USE_OPENMP_FUNCTION
-// Define el flag USE_OPTIMIZED_FUNCTION para usar la función optimizada
+// Define the flag USE_OPENMP_FUNCTION to use the optimized function
 #define simulation_function simulation_openmp
 #else
-// Si no está definido USE_OPTIMIZED_FUNCTION, se utilizará la función estándar
+// If USE_OPENMP_FUNCTION is not defined, the standard function will be used
 #define simulation_function simulation
 #endif
 
