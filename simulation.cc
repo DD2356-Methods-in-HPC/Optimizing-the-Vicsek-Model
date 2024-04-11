@@ -1,5 +1,4 @@
-#include <vector>
-#include <cmath>
+#include "simulation.h"
 
 std::vector<double> simulation(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {

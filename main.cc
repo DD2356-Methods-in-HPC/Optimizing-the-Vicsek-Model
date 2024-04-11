@@ -1,7 +1,8 @@
 #include <iostream>
 #include <random>
-#include "simulation.h"
 #include <vector>
+
+#include "simulation.h"
 
 int main()
 {
