@@ -5,7 +5,7 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
 {
     int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
-
+    double r_pow2 = R * R;
     for (int b = 0; b < N; ++b)
     {
         double sx = 0.0;
@@ -17,7 +17,7 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
             if (i != b)
             {
                 double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
-                if (distance_squared < pow(R, 2))
+                if (distance_squared < r_pow2)
                 {
                     sx += cos(theta[i]);
                     sy += sin(theta[i]);

@@ -76,7 +76,7 @@ int main()
     FILE *gnuplotPipe = popen("gnuplot", "w");
     if (gnuplotPipe)
     {
-        // Configurar el gráfico
+        // Configure the picture
         fprintf(gnuplotPipe, "set terminal png\n");
         fprintf(gnuplotPipe, "set output 'assets/birds.png'\n");
         fprintf(gnuplotPipe, "set xrange [0:%f]\n", L);
@@ -86,7 +86,7 @@ int main()
         fprintf(gnuplotPipe, "unset ytics\n");
         fprintf(gnuplotPipe, "set size square\n");
 
-        // Dibujar los vectores
+        // Draw  vectors
         for (int i = 0; i < N; ++i)
         {
             fprintf(gnuplotPipe, "set arrow %d from %f,%f to %f,%f lt 1 lw 0 filled\n", i + 1, x[i], y[i], x[i] + vx[i], y[i] + vy[i]);
@@ -94,11 +94,11 @@ int main()
         fprintf(gnuplotPipe, "plot NaN title ''\n"); // Esto es necesario para que se muestren las flechas
         fflush(gnuplotPipe);
         pclose(gnuplotPipe);
-        std::cout << "Gráfico guardado como 'birds.png'" << std::endl;
+        std::cout << "Pictutre saved as'birds.png'" << std::endl;
     }
     else
     {
-        std::cerr << "Error: No se pudo abrir la tubería a Gnuplot." << std::endl;
+        std::cerr << "Error: Gnuplot pipe could not be opened." << std::endl;
         return 1;
     }
     return 0;
