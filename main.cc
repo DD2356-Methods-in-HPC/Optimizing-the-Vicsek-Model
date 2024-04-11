@@ -4,6 +4,14 @@
 
 #include "simulation.h"
 
+#ifdef USE_OPENMP_FUNCTION
+// Define el flag USE_OPTIMIZED_FUNCTION para usar la función optimizada
+#define simulation_function simulation_openmp
+#else
+// Si no está definido USE_OPTIMIZED_FUNCTION, se utilizará la función estándar
+#define simulation_function simulation
+#endif
+
 int main()
 {
     // Finite Volume simulation
@@ -60,7 +68,7 @@ int main()
                 y[i] += L; // Handle negative values
         }
 
-        theta = simulation(x, y, theta, R);
+        theta = simulation_function(x, y, theta, R);
 
         // Update velocities
         for (int i = 0; i < N; ++i)

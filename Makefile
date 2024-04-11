@@ -10,7 +10,7 @@ endif
 BIN_DIR = bin
 
 # defaul instruction, run the program
-run: $(BIN_DIR)/main.out
+run: birds
 	@ $(BIN_DIR)/main.out
 
 
@@ -18,8 +18,17 @@ test: $(BIN_DIR)/test.out
 	@ $(BIN_DIR)/test.out
 
 # compile the program
-$(BIN_DIR)/main.out: main.cc $(BIN_DIR)/simulation.o
+birds: main.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -Wall -o $(BIN_DIR)/main.out main.cc $(BIN_DIR)/simulation.o
+
+	
+
+# compile the program with openMP
+openMP: main.cc $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -DUSE_OPENMP_FUNCTION -Wall -o $(BIN_DIR)/main_openMP.out main.cc $(BIN_DIR)/simulation.o
+
+
+
 # compile the program
 $(BIN_DIR)/test.out: test.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -Wall -o $(BIN_DIR)/test.out test.cc $(BIN_DIR)/simulation.o
