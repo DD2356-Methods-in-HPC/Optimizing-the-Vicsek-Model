@@ -39,13 +39,13 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
     int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
     double r_pow2 = R * R;
+#pragma omp parallel for
     for (int b = 0; b < N; ++b)
     {
         double sx = 0.0;
         double sy = 0.0;
         int count = 0;
 
-#pragma omp parallel for
         for (int i = 0; i < N; ++i)
         {
             if (i != b)
