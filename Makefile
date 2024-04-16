@@ -25,7 +25,7 @@ birds: main.cc $(BIN_DIR)/simulation.o
 
 # compile the program with openMP
 openMP: main.cc $(BIN_DIR)/simulation.o
-	$(CXX) -std=c++11 -openmp -DUSE_OPENMP_FUNCTION -Wall -o $(BIN_DIR)/main_openMP.out main.cc $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11  -DUSE_OPENMP_FUNCTION -Wall -o $(BIN_DIR)/main_openMP.out main.cc $(BIN_DIR)/simulation.o
 
 
 
@@ -36,7 +36,7 @@ $(BIN_DIR)/test.out: test.cc $(BIN_DIR)/simulation.o
 
 # compile the simulation file
 $(BIN_DIR)/simulation.o: simulation.cc simulation.h
-	$(CXX) -std=c++11 -Wall -c simulation.cc -o $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -Wall -openmp -c simulation.cc -o $(BIN_DIR)/simulation.o
 
 # clean the binary files
 clean:
