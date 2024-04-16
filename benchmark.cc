@@ -5,6 +5,9 @@
 
 #include "simulation.h"
 
+const int Nt = 500; // number of time steps
+const int N = 500;  // number of birds
+
 void benchmark_simulation()
 {
     // Finite Volume simulation
@@ -15,8 +18,6 @@ void benchmark_simulation()
     double L = 10;    // size of the box
     double R = 1;     // interaction radius
     double dt = 0.2;  // time step
-    int Nt = 500;     // number of time steps
-    int N = 500;      // number of birds
 
     // Initialise
     std::default_random_engine generator;
@@ -93,8 +94,6 @@ void benchmark_simulation_openmp()
     double L = 10;    // size of the box
     double R = 1;     // interaction radius
     double dt = 0.2;  // time step
-    int Nt = 500;     // number of time steps
-    int N = 500;      // number of birds
 
     // Initialise
     std::default_random_engine generator;
