@@ -31,7 +31,7 @@ openMP: main.cc $(BIN_DIR)/simulation.o
 
 # compile the program
 $(BIN_DIR)/test.out: test.cc $(BIN_DIR)/simulation.o
-	$(CXX) -std=c++11 -Wall -o $(BIN_DIR)/test.out test.cc $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -openmp -Wall -o $(BIN_DIR)/test.out test.cc $(BIN_DIR)/simulation.o
 
 
 # compile the simulation file
