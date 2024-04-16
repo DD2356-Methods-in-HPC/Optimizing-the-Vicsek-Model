@@ -80,6 +80,7 @@ void benchmark_simulation()
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "Standard simulation: " << std::endl;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
@@ -157,13 +158,14 @@ void benchmark_simulation_openmp()
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
+    std::cout << "Openmp optimzation: " << std::endl;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 int main()
 {
 
-    std::cout << "Running tests..." << std::endl;
+    std::cout << "Running benchmarks..." << std::endl;
     benchmark_simulation();
     benchmark_simulation_openmp();
     std::cout
