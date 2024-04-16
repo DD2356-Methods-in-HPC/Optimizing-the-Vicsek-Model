@@ -17,6 +17,9 @@ run: birds
 test: $(BIN_DIR)/test.out
 	@ $(BIN_DIR)/test.out
 
+bench: $(BIN_DIR)/bench.out
+	@ $(BIN_DIR)/bench.out
+
 # compile the program
 birds: main.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -Wall -openmp -o $(BIN_DIR)/main.out main.cc $(BIN_DIR)/simulation.o
@@ -32,6 +35,11 @@ openMP: main.cc $(BIN_DIR)/simulation.o
 # compile the program
 $(BIN_DIR)/test.out: test.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -openmp -Wall -o $(BIN_DIR)/test.out test.cc $(BIN_DIR)/simulation.o
+
+# compile the program
+$(BIN_DIR)/bench.out: benchmark.cc $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -openmp -Wall -o $(BIN_DIR)/bench.out benchmark.cc $(BIN_DIR)/simulation.o
+
 
 
 # compile the simulation file
