@@ -22,7 +22,7 @@ int main()
     double L = 10;    // size of the box
     double R = 1;     // interaction radius
     double dt = 0.2;  // time step
-    int Nt = 200;     // number of time steps
+    int Nt = 500;     // number of time steps
     int N = 500;      // number of birds
 
     // Initialise

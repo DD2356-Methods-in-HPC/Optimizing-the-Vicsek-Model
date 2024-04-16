@@ -1,5 +1,5 @@
 #include "simulation.h"
-
+#include <iostream>
 std::vector<double> simulation(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int N = x.size();
@@ -45,7 +45,7 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
         double sx = 0.0;
         double sy = 0.0;
         int count = 0;
-#pragma omp parallel for reduction(+, sx, sy, count)
+
         for (int i = 0; i < N; ++i)
         {
             if (i != b)
