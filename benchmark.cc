@@ -320,18 +320,19 @@ int main(int argc, char* argv[])
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
+    benchmark_simulation_mpi();
+
+    MPI_Finalize();
+
     if(rank == 0){
         std::cout << "Running benchmarks..." << std::endl;
         benchmark_simulation();
         benchmark_simulation_openmp();
         benchmark_simulation_openmp_dy();
+
+        std::cout
+        << "All tests passed!" << std::endl;
     }
 
-    benchmark_simulation_mpi();
 
-    MPI_Finalize();
-
-
-    std::cout
-        << "All tests passed!" << std::endl;
 }
