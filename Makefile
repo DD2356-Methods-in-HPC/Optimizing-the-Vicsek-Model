@@ -41,7 +41,7 @@ bench: benchmark.cc $(BIN_DIR)/simulation.o
 
 # compile the simulation file
 $(BIN_DIR)/simulation.o: simulation.cc simulation.h
-	$(CXX) -std=c++11 -Wall -openmp -c simulation.cc -o $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -Wall -openmp -lmpi -c simulation.cc -o $(BIN_DIR)/simulation.o
 
 # clean the binary files
 clean:
