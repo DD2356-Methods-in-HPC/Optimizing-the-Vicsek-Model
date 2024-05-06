@@ -105,19 +105,13 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 }
 
 
-std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R, int argc, char* argv[])
+std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
-    int rank, size, provided;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
-    std::cout << size << "\n";
+    int rank, size;
 
-
-    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
-
-    printf("Hello World from rank %d from %d processes!\n", rank, size);
 
 
     int N = x.size();
@@ -131,11 +125,6 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
     std::vector<double> local_mean_theta(chunk_size, 0.0);
 
-
-    //super simple error-handling
-    if(end > N){
-        exit(1);
-    }
 
     for (int b = start; b < end; ++b)
     {
@@ -167,6 +156,5 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     //gather all results
     MPI_Gather(local_mean_theta.data(), chunk_size, MPI_DOUBLE, mean_theta.data(), chunk_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    MPI_Finalize();
     return mean_theta;    
 }

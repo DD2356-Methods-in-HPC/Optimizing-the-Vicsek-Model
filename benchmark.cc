@@ -5,7 +5,7 @@
 
 #include "simulation.h"
 
-const int Nt = 1; // number of time steps
+const int Nt = 500; // number of time steps
 const int N = 500;  // number of birds
 
 void benchmark_simulation()
@@ -237,7 +237,7 @@ void benchmark_simulation_openmp_dy()
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
-void benchmark_simulation_mpi(int argc, char* argv[])
+void benchmark_simulation_mpi()
 {
     // Finite Volume simulation
 
@@ -314,11 +314,20 @@ void benchmark_simulation_mpi(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-    std::cout << "Running benchmarks..." << std::endl;
-    //benchmark_simulation();
-    //benchmark_simulation_openmp();
-    //benchmark_simulation_openmp_dy();
-    benchmark_simulation_mpi(argc, argv);
+    int provided;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
+
+    if(rank == 0){
+        std::cout << "Running benchmarks..." << std::endl;
+        //benchmark_simulation();
+        //benchmark_simulation_openmp();
+        //benchmark_simulation_openmp_dy();
+    }
+
+    benchmark_simulation_mpi();
+
+    MPI_Finalize();
+
 
     std::cout
         << "All tests passed!" << std::endl;
