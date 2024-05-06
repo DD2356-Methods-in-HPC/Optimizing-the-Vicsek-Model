@@ -110,7 +110,7 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
     int rank, size, provided;
 
-    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
+    MPI_Init_thread(argc, argv, MPI_THREAD_MULTIPLE, &provided);
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
