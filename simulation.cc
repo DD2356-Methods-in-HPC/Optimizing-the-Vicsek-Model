@@ -115,7 +115,7 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
-    printf("Hello World from rank %d from %d processes!\n", rank, processes);
+    printf("Hello World from rank %d from %d processes!\n", rank, size);
 
 
     int N = x.size();
