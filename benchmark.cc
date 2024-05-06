@@ -329,9 +329,7 @@ int main(int argc, char* argv[])
         benchmark_simulation();
         benchmark_simulation_openmp();
         benchmark_simulation_openmp_dy();
-
-        std::cout
-        << "All tests passed!" << std::endl;
+        std::cout << "All tests passed!" << std::endl;
     }
 
 
