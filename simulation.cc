@@ -115,7 +115,8 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
-    std::cout << size;
+    printf("Hello World from rank %d from %d processes!\n", rank, processes);
+
 
     int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
