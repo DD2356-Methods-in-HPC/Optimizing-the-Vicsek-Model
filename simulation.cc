@@ -108,8 +108,6 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int rank, size;
-
-
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
@@ -119,13 +117,10 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     double r_pow2 = R * R;
 
     int chunk_size = N/ size;
-
     int start = rank*chunk_size;
     int end = start + chunk_size;
 
     std::vector<double> local_mean_theta(chunk_size, 0.0);
-
-
     for (int b = start; b < end; ++b)
     {
         double sx = 0.0;
