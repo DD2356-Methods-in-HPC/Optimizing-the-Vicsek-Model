@@ -314,16 +314,13 @@ void benchmark_simulation_mpi()
 
 int main(int argc, char* argv[])
 {
+    std::cout << "Running benchmarks..." << std::endl;
+    benchmark_simulation();
+    benchmark_simulation_openmp();
+    benchmark_simulation_openmp_dy();
+
     int provided;
     MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
-
-    if(rank == 0){
-        std::cout << "Running benchmarks..." << std::endl;
-        //benchmark_simulation();
-        //benchmark_simulation_openmp();
-        //benchmark_simulation_openmp_dy();
-    }
-
     benchmark_simulation_mpi();
 
     MPI_Finalize();
