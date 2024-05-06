@@ -310,16 +310,16 @@ void benchmark_simulation_mpi(int argc, char* argv[])
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
-    std::cout << "Standard simulation: " << std::endl;
+    std::cout << "mpi simulation: " << std::endl;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 int main(int argc, char* argv[])
 {
     std::cout << "Running benchmarks..." << std::endl;
-    benchmark_simulation();
-    benchmark_simulation_openmp();
-    benchmark_simulation_openmp_dy();
+    //benchmark_simulation();
+    //benchmark_simulation_openmp();
+    //benchmark_simulation_openmp_dy();
     benchmark_simulation_mpi(argc, argv);
 
     std::cout

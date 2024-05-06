@@ -163,8 +163,7 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
     //gather all results
     MPI_Gather(local_mean_theta.data(), chunk_size, MPI_DOUBLE, mean_theta.data(), chunk_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    if(rank==0){
-        MPI_Finalize();
-        return mean_theta;
-    }
+
+    MPI_Finalize();
+    return mean_theta;    
 }
