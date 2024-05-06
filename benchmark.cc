@@ -237,7 +237,7 @@ void benchmark_simulation_openmp_dy()
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
-void benchmark_simulation_mpi()
+void benchmark_simulation_mpi(int& argc, char**& argv)
 {
     // Finite Volume simulation
 
@@ -294,7 +294,7 @@ void benchmark_simulation_mpi()
                 y[i] += L; // Handle negative values
         }
 
-        theta = simulation_mpi(x, y, theta, R);
+        theta = simulation_mpi(x, y, theta, R, &argc, &argv);
 
         // Update velocities
         for (int i = 0; i < N; ++i)
@@ -314,13 +314,13 @@ void benchmark_simulation_mpi()
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     std::cout << "Running benchmarks..." << std::endl;
     benchmark_simulation();
     benchmark_simulation_openmp();
     benchmark_simulation_openmp_dy();
-    benchmark_simulation_mpi();
+    benchmark_simulation_mpi(&argc, &argv);
 
     std::cout
         << "All tests passed!" << std::endl;

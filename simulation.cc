@@ -105,12 +105,12 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 }
 
 
-std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
+std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R, int* argc, char*** argv)
 {
 
     int rank, size, provided;
 
-    MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided); 
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
 
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
