@@ -292,7 +292,7 @@ void benchmark_simulation_mpi()
                 y[i] += L; // Handle negative values
         }
 
-        theta = simulation_mpi(x, y, theta, R, argc, argv);
+        theta = simulation_mpi(x, y, theta, R);
 
         // Update velocities
         for (int i = 0; i < N; ++i)
