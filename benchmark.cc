@@ -237,7 +237,7 @@ void benchmark_simulation_openmp_dy()
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
-void benchmark_simulation_mpi(int& argc, char**& argv)
+void benchmark_simulation_mpi(int argc, char* argv[])
 {
     // Finite Volume simulation
 
@@ -320,7 +320,7 @@ int main(int argc, char* argv[])
     benchmark_simulation();
     benchmark_simulation_openmp();
     benchmark_simulation_openmp_dy();
-    benchmark_simulation_mpi(&argc, &argv);
+    benchmark_simulation_mpi(argc, argv);
 
     std::cout
         << "All tests passed!" << std::endl;
