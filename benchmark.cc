@@ -237,7 +237,7 @@ void benchmark_simulation_openmp_dy()
     std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
-void benchmark_simulation_mpi()
+void benchmark_simulation_mpi(int rank)
 {
     // Finite Volume simulation
 
@@ -306,31 +306,35 @@ void benchmark_simulation_mpi()
     }
     // stop time counter
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds = end - start;
-    std::cout << "mpi simulation: " << std::endl;
-    std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
+    if(rank == 0){
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end - start;
+        std::cout << "mpi simulation: " << std::endl;
+        std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";    
+    }
 }
 
 int main(int argc, char* argv[])
 {
-    int provided;
-    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
 
-    int rank;
+    int provided, rank;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
-    benchmark_simulation_mpi();
-
-    MPI_Finalize();
-
-    if(rank == 0){
+    if(rank==0) //only print from root process
         std::cout << "Running benchmarks..." << std::endl;
+
+
+    //Run non-MPI benchmarks only on root
+    if(rank == 0){
         benchmark_simulation();
         benchmark_simulation_openmp();
         benchmark_simulation_openmp_dy();
-        std::cout << "All tests passed!" << std::endl;
     }
 
+    MPI_Barrier(MPI_COMM_WORLD);
 
+    benchmark_simulation_mpi(rank);
+
+    MPI_Finalize();
 }

@@ -36,6 +36,9 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
 
 std::vector<double> simulation_openmp(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
+
     int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
     double r_pow2 = R * R;
@@ -116,7 +119,21 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     std::vector<double> mean_theta(N, 0.0);
     double r_pow2 = R * R;
 
-    int chunk_size = N/ size;
+    int chunk_size = N / size;
+    int remainder = N % size;
+
+    if(chunk_size < 1){
+        remainder = 0;
+        if(rank < N){
+            chunk_size = 1;
+        } else {
+            chunk_size = 0;
+        }
+    } else if(rank < remainder){ //will only be true when remainder > 0
+            chunk_size ++;
+    }
+
+
     int start = rank*chunk_size;
     int end = start + chunk_size;
 
@@ -148,8 +165,19 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
         }
     }
 
+    std::vector<int> recvcounts(size);
+    std::vector<int> displs(size);
+    for (int i = 0; i < size; ++i){
+        recvcounts[i] = (i < remainder) ? (chunk_size + 1) : chunk_size;
+    }
+
+    displs[0] = 0;
+    for (int i = 1; i < size; ++i){
+        displs[i] = displs[i-1] + recvcounts[i];
+    }
+
     //gather all results
-    MPI_Gather(local_mean_theta.data(), chunk_size, MPI_DOUBLE, mean_theta.data(), chunk_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gatherv(local_mean_theta.data(), chunk_size, MPI_DOUBLE, mean_theta.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     return mean_theta;    
 }
