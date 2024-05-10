@@ -122,36 +122,24 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     double r_pow2 = R * R;
 
     int chunk_size = N / size;
-
     int remainder = N % size;
 
-    if(chunk_size < 1){
-        remainder = 0;
-        if(rank < N){
-            chunk_size = 1;
-        } else {
-            chunk_size = 0;
-        }
-    } else if(rank < remainder){ //will only be true when remainder > 0
-            chunk_size ++;
-    }
-
     std::vector<int> recvcounts(size);
-    std::vector<int> displs(size);
     for (int i = 0; i < size; ++i){
         recvcounts[i] = (i < remainder) ? (chunk_size + 1) : chunk_size;
     }
 
+    std::vector<int> displs(size);
     displs[0] = 0;
     for (int i = 1; i < size; ++i){
         displs[i] = displs[i-1] + recvcounts[i-1];
     }
 
+    chunk_size = recvcounts[rank];
+
 
     int start = displs[rank];
     int end = start + chunk_size;
-
-    std::cout << rank << ":" << chunk_size << "|" << start << "-" << end << std::endl;
 
     std::vector<double> local_mean_theta(chunk_size, 0.0);
     for (int b = start; b < end; ++b)
