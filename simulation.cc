@@ -141,6 +141,8 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     int start = displs[rank];
     int end = start + chunk_size;
 
+    //std::cout << rank << ":" << chunk_size << "|" << start << "-" << end << std::endl;
+
     std::vector<double> local_mean_theta(chunk_size, 0.0);
     for (int b = start; b < end; ++b)
     {
@@ -171,6 +173,11 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
     //gather all results
     MPI_Gatherv(local_mean_theta.data(), chunk_size, MPI_DOUBLE, mean_theta.data(), recvcounts.data(), displs.data(), MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    //broadcast
+
+    MPI_Bcast(mean_theta.data(), N , MPI_DOUBLE, 0 , MPI_COMM_WORLD);
+
 
     return mean_theta;    
 }

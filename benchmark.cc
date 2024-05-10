@@ -11,7 +11,7 @@ const int N = 500;  // number of birds
 
 
 
-void benchmark_simulation(int rank, std::function<std::vector<double>(const std::vector<double>&, const std::vector<double>&, std::vector<double>, double)> sim_function, std::string func_string)
+std::vector<double> benchmark_simulation(int rank, std::function<std::vector<double>(const std::vector<double>&, const std::vector<double>&, std::vector<double>, double)> sim_function, std::string func_string)
 {
     // Finite Volume simulation
 
@@ -51,7 +51,7 @@ void benchmark_simulation(int rank, std::function<std::vector<double>(const std:
     auto start = std::chrono::high_resolution_clock::now();
 
     // Simulation
-    for (int i = 0; i < Nt; i++)
+    for (int j = 0; j < Nt; j++)
     {
         for (int i = 0; i < N; ++i)
         {
@@ -88,6 +88,8 @@ void benchmark_simulation(int rank, std::function<std::vector<double>(const std:
         std::cout << func_string << std::endl;
         std::cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
     }
+
+    return theta;
 }
 
 int main(int argc, char* argv[])
@@ -100,17 +102,35 @@ int main(int argc, char* argv[])
     if(rank==0) //only print from root process
         std::cout << "Running benchmarks..." << std::endl;
 
-
+    std::vector<double> theta1(N);
+    std::vector<double> theta2(N);
+    
     //Run non-MPI benchmarks only on root
     if(rank == 0){
-        benchmark_simulation(rank, simulation, "simulation");
-        benchmark_simulation(rank, simulation_openmp, "simulation_openmp");
-        benchmark_simulation(rank, simulation_openmp_dy, "simulation_openmp_dy");
+        theta1 = benchmark_simulation(rank, simulation, "simulation");
+        theta2 = benchmark_simulation(rank, simulation_openmp, "simulation_openmp");
+
+        assert(theta1.size() == theta2.size());
+        assert(theta1 == theta2);
+
+        theta2 = benchmark_simulation(rank, simulation_openmp_dy, "simulation_openmp_dy");
+
+        assert(theta1.size() == theta2.size());
+        assert(theta1 == theta2);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    benchmark_simulation(rank, simulation_mpi, "simulation_mpi");
+    theta2 = benchmark_simulation(rank, simulation_mpi, "simulation_mpi");
+
+    if(rank == 0){
+        assert(theta1.size() == theta2.size());
+        assert(theta1 == theta2);
+    }
+
+    if(rank == 0){
+        std::cout << "All simulations gave the same theta" << std::endl;
+    }
 
     MPI_Finalize();
 }
