@@ -27,15 +27,14 @@ void test_simulation()
     assert(res.size() == CORRECT_RESULT.size());
     for (int i = 0; i < res.size(); i++)
     {
-        //print type of res[i] and CORRECT_RESULT[i]
-            double diff = res[i] - CORRECT_RESULT[i];
+        // print type of res[i] and CORRECT_RESULT[i]
+        double diff = res[i] - CORRECT_RESULT[i];
         if (diff > threshold || diff < -threshold)
         {
             std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
             std::cout << "diff: " << diff << std::endl;
             assert(res[i] == CORRECT_RESULT[i]);
         }
-
     }
 }
 
@@ -54,12 +53,48 @@ void test_simulation_openmp()
     assert(res == CORRECT_RESULT);
 }
 
-int main()
+void test_simulation_mpi()
 {
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get each process rank
 
-    std::cout << "Running tests..." << std::endl;
-    test_simulation();
-//    test_simulation_openmp();
-    std::cout
-        << "All tests passed!" << std::endl;
+    std::vector<double> x;
+    std::vector<double> y;
+    std::vector<double> theta;
+    init_vectors(x, y, theta);
+    if (rank == 0)
+        std::cout << "Testing simulation_mpi function" << std::endl;
+
+    std::vector<double> res = simulation_mpi(x, y, theta, R);
+
+    if (rank == 0)
+    { // Only assert the result on the root process
+        assert(res.size() == CORRECT_RESULT.size());
+        assert(res == CORRECT_RESULT);
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    int provided, rank;
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provided);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get each process rank
+
+    if (rank == 0)
+    {
+        std::cout << "Running tests..." << std::endl;
+    }
+
+    if (rank == 0)
+    {
+        test_simulation();
+        test_simulation_openmp();
+    }
+
+    test_simulation_mpi();
+
+    if (rank == 0)
+        std::cout << "All tests passed!" << std::endl;
+
+    MPI_Finalize();
 }
