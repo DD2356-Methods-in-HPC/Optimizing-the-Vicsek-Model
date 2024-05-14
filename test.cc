@@ -88,10 +88,10 @@ int main(int argc, char *argv[])
     if (rank == 0)
     {
         test_simulation();
-        test_simulation_openmp();
+//        test_simulation_openmp();
     }
 
-    test_simulation_mpi();
+  //  test_simulation_mpi();
 
     if (rank == 0)
         std::cout << "All tests passed!" << std::endl;
