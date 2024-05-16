@@ -1,5 +1,19 @@
+/**
+ * @file simulation.cc
+ * @brief Different implementations of functions used to simulate the theta for a flock of birds.
+ */
 #include "simulation.h"
 #include <iostream>
+
+/**
+ * @brief Calculates the theta for each bird. Serial implementation
+ * 
+ * @param x The x coordinates of the birds
+ * @param y The y coordinates of the birds
+ * @param theta The angles corresponding to each bird.
+ * @param R The radius within which to consider neighboring birds.
+ * @return A vector containing the mean theta for each bird.
+ */
 std::vector<double> simulation(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int N = x.size();
@@ -33,7 +47,15 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
     return mean_theta;
 }
 
-
+/**
+ * @brief Calculates the theta for each bird. Parallel implementation using openMP with default scheduling
+ * 
+ * @param x The x coordinates of the birds
+ * @param y The y coordinates of the birds
+ * @param theta The angles corresponding to each bird.
+ * @param R The radius within which to consider neighboring birds.
+ * @return A vector containing the mean theta for each bird.
+ */
 std::vector<double> simulation_openmp(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int rank;
@@ -51,15 +73,12 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
+            double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+            if (distance_squared < r_pow2)
             {
-                double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
-                if (distance_squared < r_pow2)
-                {
-                    sx += cos(theta[i]);
-                    sy += sin(theta[i]);
-                    count++;
-                }
+                sx += cos(theta[i]);
+                sy += sin(theta[i]);
+                count++;
             }
         }
 
@@ -72,6 +91,15 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
     return mean_theta;
 }
 
+/**
+ * @brief Calculates the theta for each bird. Parallel implementation using openMP with dynamic scheduling
+ * 
+ * @param x The x coordinates of the birds
+ * @param y The y coordinates of the birds
+ * @param theta The angles corresponding to each bird.
+ * @param R The radius within which to consider neighboring birds.
+ * @return A vector containing the mean theta for each bird.
+ */
 std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int N = x.size();
@@ -86,15 +114,12 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
+            double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+            if (distance_squared < r_pow2)
             {
-                double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
-                if (distance_squared < r_pow2)
-                {
-                    sx += cos(theta[i]);
-                    sy += sin(theta[i]);
-                    count++;
-                }
+                sx += cos(theta[i]);
+                sy += sin(theta[i]);
+                count++;
             }
         }
 
@@ -107,7 +132,15 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
     return mean_theta;
 }
 
-
+/**
+ * @brief Calculates the theta for each bird. Parallel implementation using MPI
+ * 
+ * @param x The x coordinates of the birds
+ * @param y The y coordinates of the birds
+ * @param theta The angles corresponding to each bird.
+ * @param R The radius within which to consider neighboring birds.
+ * @return A vector containing the mean theta for each bird.
+ */
 std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
     int rank, size;
@@ -152,15 +185,12 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
+            double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+            if (distance_squared < r_pow2)
             {
-                double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
-                if (distance_squared < r_pow2)
-                {
-                    sx += cos(theta[i]);
-                    sy += sin(theta[i]);
-                    count++;
-                }
+                sx += cos(theta[i]);
+                sy += sin(theta[i]);
+                count++;
             }
         }
 
