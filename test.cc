@@ -49,8 +49,17 @@ void test_simulation_openmp()
     std::vector<double> res = simulation_openmp(x, y, theta, R);
 
     assert(res.size() == CORRECT_RESULT.size());
-
-    assert(res == CORRECT_RESULT);
+    for (int i = 0; i < res.size(); i++)
+    {
+        // print type of res[i] and CORRECT_RESULT[i]
+        double diff = res[i] - CORRECT_RESULT[i];
+        if (diff > threshold || diff < -threshold)
+        {
+            std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
+            std::cout << "diff: " << diff << std::endl;
+            assert(res[i] == CORRECT_RESULT[i]);
+        }
+    }
 }
 
 void test_simulation_mpi()
@@ -69,8 +78,18 @@ void test_simulation_mpi()
 
     if (rank == 0)
     { // Only assert the result on the root process
-        assert(res.size() == CORRECT_RESULT.size());
-        assert(res == CORRECT_RESULT);
+    assert(res.size() == CORRECT_RESULT.size());
+    for (int i = 0; i < res.size(); i++)
+    {
+        // print type of res[i] and CORRECT_RESULT[i]
+        double diff = res[i] - CORRECT_RESULT[i];
+        if (diff > threshold || diff < -threshold)
+        {
+            std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
+            std::cout << "diff: " << diff << std::endl;
+            assert(res[i] == CORRECT_RESULT[i]);
+        }
+    }
     }
 }
 
@@ -88,10 +107,10 @@ int main(int argc, char *argv[])
     if (rank == 0)
     {
         test_simulation();
-//        test_simulation_openmp();
+        test_simulation_openmp();
     }
 
-  //  test_simulation_mpi();
+    test_simulation_mpi();
 
     if (rank == 0)
         std::cout << "All tests passed!" << std::endl;

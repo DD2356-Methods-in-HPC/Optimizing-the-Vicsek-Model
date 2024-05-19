@@ -51,8 +51,6 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
-            {
                 double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
                 if (distance_squared < r_pow2)
                 {
@@ -60,7 +58,6 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
                     sy += sin(theta[i]);
                     count++;
                 }
-            }
         }
 
         if (count > 0)
@@ -86,8 +83,6 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
-            {
                 double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
                 if (distance_squared < r_pow2)
                 {
@@ -95,7 +90,6 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
                     sy += sin(theta[i]);
                     count++;
                 }
-            }
         }
 
         if (count > 0)
@@ -152,8 +146,6 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
         for (int i = 0; i < N; ++i)
         {
-            if (i != b)
-            {
                 double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
                 if (distance_squared < r_pow2)
                 {
@@ -161,7 +153,6 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
                     sy += sin(theta[i]);
                     count++;
                 }
-            }
         }
 
 
