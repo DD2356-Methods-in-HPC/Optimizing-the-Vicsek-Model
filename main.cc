@@ -1,3 +1,8 @@
+/**
+ * @file main.cc
+ * @brief Run the flocking bird simulation and plot the results
+ */
+
 #include <iostream>
 #include <random>
 #include <vector>
@@ -12,6 +17,12 @@
 #define simulation_function simulation
 #endif
 
+
+/**
+ * @brief Main function for running the flocking bird simulations and plotting the results.
+ * 
+ * @return Integer indicating the exit status of the program.
+ */
 int main()
 {
     // Finite Volume simulation

@@ -1,3 +1,8 @@
+/**
+ * @file test.cc
+ * @brief Executes some tests to verify the correctness of the simulation functions
+ */
+
 #include <iostream>
 #include <assert.h>
 
