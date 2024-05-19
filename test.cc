@@ -10,7 +10,6 @@
 
 const double R = 1.0;
 const double threshold = 0.0001;
-const std::vector<double> CORRECT_RESULT = {1.0, 1.0, 1.0, 1.0};
 
 void init_vectors(std::vector<double> &x, std::vector<double> &y, std::vector<double> &theta)
 {
@@ -37,26 +36,27 @@ void test_simulation()
     std::vector<double> x;
     std::vector<double> y;
     std::vector<double> theta;
+    const std::vector<double> correct_result;
     for (int i = 0; i < sizeof(test_cases) / sizeof(test_case); i++)
     {
         x = test_cases[i].x;
         y = test_cases[i].y;
         theta = test_cases[i].theta;
-        CORRECT_RESULT = test_cases[i].correct_result;
+        correct_result = test_cases[i].correct_result;
 
         std::cout << "Testing simulation function" << std::endl;
         std::vector<double> res = simulation(x, y, theta, R);
 
-        assert(res.size() == CORRECT_RESULT.size());
+        assert(res.size() == correct_result.size());
         for (int i = 0; i < res.size(); i++)
         {
-            // print type of res[i] and CORRECT_RESULT[i]
-            double diff = res[i] - CORRECT_RESULT[i];
+            // print type of res[i] and correct_result[i]
+            double diff = res[i] - correct_result[i];
             if (diff > threshold || diff < -threshold)
             {
-                std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
+                std::cout << "res[i]: " << res[i] << " correct_result[i]: " << correct_result[i] << std::endl;
                 std::cout << "diff: " << diff << std::endl;
-                assert(res[i] == CORRECT_RESULT[i]);
+                assert(res[i] == correct_result[i]);
             }
         }
     }
@@ -67,26 +67,27 @@ void test_simulation_openmp()
     std::vector<double> x;
     std::vector<double> y;
     std::vector<double> theta;
+
     for (int i = 0; i < sizeof(test_cases) / sizeof(test_case); i++)
     {
         x = test_cases[i].x;
         y = test_cases[i].y;
         theta = test_cases[i].theta;
-        CORRECT_RESULT = test_cases[i].correct_result;
+        correct_result = test_cases[i].correct_result;
 
         std::cout << "Testing simulation_openmp function" << std::endl;
         std::vector<double> res = simulation_openmp(x, y, theta, R);
 
-        assert(res.size() == CORRECT_RESULT.size());
+        assert(res.size() == correct_result.size());
         for (int i = 0; i < res.size(); i++)
         {
-            // print type of res[i] and CORRECT_RESULT[i]
-            double diff = res[i] - CORRECT_RESULT[i];
+            // print type of res[i] and correct_result[i]
+            double diff = res[i] - correct_result[i];
             if (diff > threshold || diff < -threshold)
             {
-                std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
+                std::cout << "res[i]: " << res[i] << " correct_result[i]: " << correct_result[i] << std::endl;
                 std::cout << "diff: " << diff << std::endl;
-                assert(res[i] == CORRECT_RESULT[i]);
+                assert(res[i] == correct_result[i]);
             }
         }
     }
@@ -105,7 +106,7 @@ void test_simulation_mpi()
         x = test_cases[i].x;
         y = test_cases[i].y;
         theta = test_cases[i].theta;
-        CORRECT_RESULT = test_cases[i].correct_result;
+        correct_result = test_cases[i].correct_result;
         if (rank == 0)
             std::cout << "Testing simulation_mpi function" << std::endl;
 
@@ -113,16 +114,16 @@ void test_simulation_mpi()
 
         if (rank == 0)
         { // Only assert the result on the root process
-            assert(res.size() == CORRECT_RESULT.size());
+            assert(res.size() == correct_result.size());
             for (int i = 0; i < res.size(); i++)
             {
-                // print type of res[i] and CORRECT_RESULT[i]
-                double diff = res[i] - CORRECT_RESULT[i];
+                // print type of res[i] and correct_result[i]
+                double diff = res[i] - correct_result[i];
                 if (diff > threshold || diff < -threshold)
                 {
-                    std::cout << "res[i]: " << res[i] << " CORRECT_RESULT[i]: " << CORRECT_RESULT[i] << std::endl;
+                    std::cout << "res[i]: " << res[i] << " correct_result[i]: " << correct_result[i] << std::endl;
                     std::cout << "diff: " << diff << std::endl;
-                    assert(res[i] == CORRECT_RESULT[i]);
+                    assert(res[i] == correct_result[i]);
                 }
             }
         }
