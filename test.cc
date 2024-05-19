@@ -29,7 +29,8 @@ struct test_case
 test_case test_cases[] = {
     {{1.0, 0.0, 1.0, 1.0}, {1.0, 1.0, 0.0, 0.3}, {1.0, 1.0, 1.0, 1.0}, {1.0, 1.0, 1.0, 1.0}},
     {{0.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, 0.0}, {1.0, 1.0, 1.0, 1.0}, {1.0, 1.0, 1.0, 1.0}},
-    {{0.0, 10.0, 100.0, 200.0}, {0.0, 10.0, 100.0, 200.0}, {1.0, 1.0, 1.0, 1.0}, {1.0, 1.0, 1.0, 1.0}}
+    {{0.0, 10.0, 100.0, 200.0}, {0.0, 10.0, 100.0, 200.0}, {1.0, 1.0, 1.0, 1.0}, {1.0, 1.0, 1.0, 1.0}},
+    {{0.0, 1.0, 0.0, 1.0}, {0.0, 0.0, 1.0, 2.0}, {2.0, 10.0, 0.0, 5.}, {2, -2.56637, 0, -1.28318531}}
 
 };
 
@@ -43,7 +44,7 @@ void test_simulation()
         std::vector<double> theta = test_cases[i].theta;
         std::vector<double> correct_result = test_cases[i].correct_result;
 
-        std::cout << "Testing simulation function" << std::endl;
+        std::cout << "Testing simulation function: " << i << std::endl;
         std::vector<double> res = simulation(x, y, theta, R);
 
         assert(res.size() == correct_result.size());
@@ -71,7 +72,7 @@ void test_simulation_openmp()
         std::vector<double> theta = test_cases[i].theta;
         std::vector<double> correct_result = test_cases[i].correct_result;
 
-        std::cout << "Testing simulation_openmp function" << std::endl;
+        std::cout << "Testing simulation_openmp function: " << i << std::endl;
         std::vector<double> res = simulation_openmp(x, y, theta, R);
 
         assert(res.size() == correct_result.size());
@@ -101,7 +102,7 @@ void test_simulation_mpi()
         std::vector<double> theta = test_cases[i].theta;
         std::vector<double> correct_result = test_cases[i].correct_result;
         if (rank == 0)
-            std::cout << "Testing simulation_mpi function" << std::endl;
+            std::cout << "Testing simulation_mpi function: " << i << std::endl;
 
         std::vector<double> res = simulation_mpi(x, y, theta, R);
 
