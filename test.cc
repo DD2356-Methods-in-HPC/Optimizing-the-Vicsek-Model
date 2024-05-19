@@ -33,16 +33,13 @@ test_case test_cases[] = {
 
 void test_simulation()
 {
-    std::vector<double> x;
-    std::vector<double> y;
-    std::vector<double> theta;
-    const std::vector<double> correct_result;
+
     for (int i = 0; i < sizeof(test_cases) / sizeof(test_case); i++)
     {
-        x = test_cases[i].x;
-        y = test_cases[i].y;
-        theta = test_cases[i].theta;
-        correct_result = test_cases[i].correct_result;
+        std::vector<double> x = test_cases[i].x;
+        std::vector<double> y = test_cases[i].y;
+        std::vector<double> theta = test_cases[i].theta;
+        std::vector<double> correct_result = test_cases[i].correct_result;
 
         std::cout << "Testing simulation function" << std::endl;
         std::vector<double> res = simulation(x, y, theta, R);
@@ -64,16 +61,13 @@ void test_simulation()
 
 void test_simulation_openmp()
 {
-    std::vector<double> x;
-    std::vector<double> y;
-    std::vector<double> theta;
 
     for (int i = 0; i < sizeof(test_cases) / sizeof(test_case); i++)
     {
-        x = test_cases[i].x;
-        y = test_cases[i].y;
-        theta = test_cases[i].theta;
-        correct_result = test_cases[i].correct_result;
+        std::vector<double> x = test_cases[i].x;
+        std::vector<double> y = test_cases[i].y;
+        std::vector<double> theta = test_cases[i].theta;
+        std::vector<double> correct_result = test_cases[i].correct_result;
 
         std::cout << "Testing simulation_openmp function" << std::endl;
         std::vector<double> res = simulation_openmp(x, y, theta, R);
@@ -98,15 +92,12 @@ void test_simulation_mpi()
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Get each process rank
 
-    std::vector<double> x;
-    std::vector<double> y;
-    std::vector<double> theta;
     for (int i = 0; i < sizeof(test_cases) / sizeof(test_case); i++)
     {
-        x = test_cases[i].x;
-        y = test_cases[i].y;
-        theta = test_cases[i].theta;
-        correct_result = test_cases[i].correct_result;
+        std::vector<double> x = test_cases[i].x;
+        std::vector<double> y = test_cases[i].y;
+        std::vector<double> theta = test_cases[i].theta;
+        std::vector<double> correct_result = test_cases[i].correct_result;
         if (rank == 0)
             std::cout << "Testing simulation_mpi function" << std::endl;
 
