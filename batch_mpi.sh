@@ -18,9 +18,12 @@ run_executable() {
     local num_iterations=$2
     local output_file=$3
 
+    # remove old values
+    > $output_file
+
     for i in $(seq 1 $num_iterations); do
         echo "Run $i - Mode: $mode" >> $output_file
-        srun simulation $mode >> $output_file
+        srun bin/bench.out $mode >> $output_file
         echo "" >> $output_file     # add blank line
     done
 }
