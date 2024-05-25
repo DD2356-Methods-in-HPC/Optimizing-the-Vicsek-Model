@@ -1,4 +1,3 @@
-
 #!/bin/bash -l
 # The -l above is required to get the full environment with modules
 
@@ -8,7 +7,7 @@
 #SBATCH -A edu24.DD2356
 #SBATCH -p main 
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=256
 #SBATCH --nodes=1
 #SBATCH -e error_file_openMP.e
 
@@ -28,6 +27,9 @@ run_executable() {
     done
 }
 
-# Run with mode "OpenMP"
-run_executable "openMP" 5 "output_openMP.txt"
-
+# Outer loop over powers of 2
+for num_procs in 1 2 4 8 16 32 64 128; do
+    echo "Running with $num_procs processes:"
+    export OMP_NUM_THREADS=$num_procs
+    run_executable "openMP" 5 "output_openMP_${num_procs}.txt"
+done
