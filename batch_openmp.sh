@@ -27,9 +27,9 @@ run_executable() {
     done
 }
 
-# Outer loop over powers of 2
-for num_procs in 1 2 4 8 16 32 64 128; do
-    echo "Running with $num_procs processes:"
-    export OMP_NUM_THREADS=$num_procs
-    run_executable "openMP" 5 "output_openMP_${num_procs}.txt"
+# Outer loop over number of threads = powers of 2
+for num_threads in 1 2 4 8 16 32 64 128; do
+    echo "Running with $num_threads threads:"
+    export OMP_NUM_THREADS=$num_threads
+    run_executable "openMP" 5 "output_openMP_${num_threads}.txt"
 done
