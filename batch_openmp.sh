@@ -18,6 +18,7 @@ run_executable() {
     local output_file=$3
     local map="${mode}_data"
 
+    # create directory if it does not exist
     if [ ! -d "${map}" ]; then
         mkdir "${map}"
     fi
@@ -27,7 +28,7 @@ run_executable() {
 
     for i in $(seq 1 $num_iterations); do
         echo "Run $i - Mode: $mode" >> "${map}/${output_file}"
-        srun 1 bin/bench.out $mode >> "${map}/${output_file}"
+        srun bin/bench.out $mode >> "${map}/${output_file}"
         echo "" >> "${map}/${output_file}"    # add blank line
     done
 }
