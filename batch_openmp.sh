@@ -16,20 +16,27 @@ run_executable() {
     local mode=$1
     local num_iterations=$2
     local output_file=$3
+    local map="${mode}_data"
+
+    if [ ! -d "${map}" ]; then
+        mkdir "${map}"
+    fi
 
     # remove old values
-    > $output_file
+    > "${map}/${output_file}"
 
     for i in $(seq 1 $num_iterations); do
-        echo "Run $i - Mode: $mode" >> $output_file
-        srun bin/bench.out $mode >> $output_file
-        echo "" >> $output_file     # add blank line
+        echo "Run $i - Mode: $mode" >> "${map}/${output_file}"
+        srun 1 bin/bench.out $mode >> "${map}/${output_file}"
+        echo "" >> "${map}/${output_file}"    # add blank line
     done
 }
 
 # Outer loop over number of threads = powers of 2
-for num_threads in 1 2 4 8 16 32 64 128; do
-    echo "Running with $num_threads threads:"
-    export OMP_NUM_THREADS=$num_threads
-    run_executable "openMP" 5 "output_openMP_${num_threads}.txt"
+for mode in "openMP" "openMP_dy"; do
+    for num_threads in 1 2 4 8 16 32 64 128; do
+        echo "Running $mode with $num_threads threads:"
+        export OMP_NUM_THREADS=$num_threads
+        run_executable $mode 5 "${num_threads}.txt"
+    done
 done
