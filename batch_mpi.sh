@@ -2,16 +2,16 @@
 # The -l above is required to get the full environment with modules
 
 # Second job allocation
-#SBATCH -J MPI_3
+#SBATCH -J MPI_4
 #SBATCH -t 4:00:00
 #SBATCH -A edu24.DD2356
 #SBATCH -p main 
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
 #SBATCH -e error_file_MPI.e
-#SBATCH --nodes=3
+#SBATCH --nodes=4
 
-nodes=3     # SET THIS EQUAL TO NODES FLAG VALUE
+nodes=4     # SET THIS EQUAL TO NODES FLAG VALUE
 
 # Function to run the executable multiple times
 run_executable() {
