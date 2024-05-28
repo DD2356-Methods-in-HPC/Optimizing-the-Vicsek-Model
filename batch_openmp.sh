@@ -2,8 +2,8 @@
 # The -l above is required to get the full environment with modules
 
 # Second job allocation
-#SBATCH -J vicsekJob_openMP
-#SBATCH -t 1:00:00
+#SBATCH -J openMP
+#SBATCH -t 4:00:00
 #SBATCH -A edu24.DD2356
 #SBATCH -p main 
 #SBATCH --ntasks-per-node=1
