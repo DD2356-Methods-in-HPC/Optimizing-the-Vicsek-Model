@@ -25,22 +25,19 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
         double sy = 0.0;
         int count = 0;
 
-         //std::cout  << "====================="<< std::endl;
         for (int i = 0; i < N; i++)
         {
-                double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
-        //     std::cout  << "distance_squared: " << distance_squared << std::endl;
+                double xDiff = x[i] - x[b];
+                double yDiff = y[i] - y[b];
+                double distance_squared = xDiff * xDiff + yDiff * yDiff;
                 if (distance_squared < r_pow2)
                 {
                     sx += cos(theta[i]);
-        //            std::cout << "cos: " << cos(theta[i]) << std::endl;
                     sy += sin(theta[i]);
                     count++;
                 }
         }
         
-        //std::cout  << " sx: " << sx << " sy: " << sy  << "count "<<count<< std::endl;
-        //std::cout  << " atan2: " << atan2(sy, sx) << std::endl;
         mean_theta[b] = atan2(sy, sx);
     }
 
@@ -58,12 +55,9 @@ std::vector<double> simulation(const std::vector<double> &x, const std::vector<d
  */
 std::vector<double> simulation_openmp(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
-    int rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
-
-    int N = x.size();
+    const int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
-    double r_pow2 = R * R;
+    const double r_pow2 = R * R;
 #pragma omp parallel for
     for (int b = 0; b < N; ++b)
     {
@@ -73,7 +67,9 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
 
         for (int i = 0; i < N; ++i)
         {
-            double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+            double xDiff = x[i] - x[b];
+            double yDiff = y[i] - y[b];
+            double distance_squared = xDiff * xDiff + yDiff * yDiff;
             if (distance_squared < r_pow2)
             {
                 sx += cos(theta[i]);
@@ -102,9 +98,9 @@ std::vector<double> simulation_openmp(const std::vector<double> &x, const std::v
  */
 std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std::vector<double> &y, std::vector<double> theta, const double R)
 {
-    int N = x.size();
+    const int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
-    double r_pow2 = R * R;
+    const double r_pow2 = R * R;
 #pragma omp parallel for schedule(dynamic)
     for (int b = 0; b < N; ++b)
     {
@@ -114,7 +110,9 @@ std::vector<double> simulation_openmp_dy(const std::vector<double> &x, const std
 
         for (int i = 0; i < N; ++i)
         {
-            double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+            double xDiff = x[i] - x[b];
+            double yDiff = y[i] - y[b];
+            double distance_squared = xDiff * xDiff + yDiff * yDiff;
             if (distance_squared < r_pow2)
             {
                 sx += cos(theta[i]);
@@ -147,9 +145,6 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
     MPI_Comm_size(MPI_COMM_WORLD, &size);  //Get number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); //Get each process rank
 
-
-
-
     int N = x.size();
     std::vector<double> mean_theta(N, 0.0);
     double r_pow2 = R * R;
@@ -170,22 +165,20 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
 
     chunk_size = recvcounts[rank];
 
-
     int start = displs[rank];
     int end = start + chunk_size;
 
-    //std::cout << rank << ":" << chunk_size << "|" << start << "-" << end << std::endl;
-
     std::vector<double> local_mean_theta(chunk_size, 0.0);
-    for (int b = start; b < end; ++b)
-    {
+    for (int b = start; b < end; ++b){
         double sx = 0.0;
         double sy = 0.0;
         int count = 0;
 
         for (int i = 0; i < N; ++i)
         {
-                double distance_squared = pow(x[i] - x[b], 2) + pow(y[i] - y[b], 2);
+                double xDiff = x[i] - x[b];
+                double yDiff = y[i] - y[b];
+                double distance_squared = xDiff * xDiff + yDiff * yDiff;
                 if (distance_squared < r_pow2)
                 {
                     sx += cos(theta[i]);
@@ -193,7 +186,6 @@ std::vector<double> simulation_mpi(const std::vector<double> &x, const std::vect
                     count++;
                 }
         }
-
 
         if (count > 0)
         {
