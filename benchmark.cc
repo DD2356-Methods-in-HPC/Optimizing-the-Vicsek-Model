@@ -11,8 +11,8 @@
 
 #include "simulation.h" 
 
-const int Nt = 5; // number of time steps
-const int N = 10;  // number of birds
+const int Nt = 500; // number of time steps
+const int N = 10000;  // number of birds
 
 /**
  * @brief Perform benchmark simulations using a specified simulation function.
