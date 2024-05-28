@@ -1,9 +1,9 @@
 # choose a compiler based on the OS
 UNAME_S := $(shell hostname)
-ifeq ($(UNAME_S),uan01)
+ifeq ($(UNAME_S),edarth)
     CXX := CC 
 else 
-    CXX := g++ 
+    CXX := mpic++ 
 endif
 
 # set the directory for the binary files
@@ -35,13 +35,13 @@ $(BIN_DIR)/test.out: test.cc $(BIN_DIR)/simulation.o
 
 # compile the program
 bench: benchmark.cc $(BIN_DIR)/simulation.o
-	$(CXX) -std=c++11 -openmp -Wall -o $(BIN_DIR)/bench.out benchmark.cc $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -fopenmp -Wall -o $(BIN_DIR)/bench.out benchmark.cc $(BIN_DIR)/simulation.o
 
 
 
 # compile the simulation file
 $(BIN_DIR)/simulation.o: simulation.cc simulation.h
-	$(CXX) -std=c++11 -Wall -openmp -c simulation.cc -o $(BIN_DIR)/simulation.o
+	$(CXX) -std=c++11 -Wall -fopenmp -c simulation.cc -o $(BIN_DIR)/simulation.o
 
 # clean the binary files
 clean:
