@@ -1,9 +1,9 @@
 # choose a compiler based on the OS
 UNAME_S := $(shell hostname)
-ifeq ($(UNAME_S),edarth)
+ifeq ($(UNAME_S), edarth)
     CXX := CC 
 else 
-    CXX := mpic++ 
+    CXX := CC 
 endif
 
 # set the directory for the binary files
