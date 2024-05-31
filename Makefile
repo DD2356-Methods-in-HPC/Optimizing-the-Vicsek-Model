@@ -3,7 +3,7 @@ UNAME_S := $(shell hostname)
 ifeq ($(UNAME_S), edarth)
     CXX := CC 
 else 
-    CXX := CC 
+    CXX := mpic++ 
 endif
 
 # set the directory for the binary files
