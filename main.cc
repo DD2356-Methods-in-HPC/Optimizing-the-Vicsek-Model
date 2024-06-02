@@ -9,13 +9,17 @@
 
 #include "simulation.h"
 
-#ifdef USE_OPENMP_FUNCTION
-// Define the flag USE_OPENMP_FUNCTION to use the optimized function
+#ifdef USE_MPI_FUNCTION
+// Define the flag USE_MPI_FUNCTION to use the MPI optimized function
+#define simulation_function simulation_mpi
+#elif defined(USE_OPENMP_FUNCTION)
+// Define the flag USE_OPENMP_FUNCTION to use the OpenMP optimized function
 #define simulation_function simulation_openmp
 #else
-// If USE_OPENMP_FUNCTION is not defined, the standard function will be used
+// If USE_MPI_FUNCTION and USE_OPENMP_FUNCTION are not defined, the standard function will be used
 #define simulation_function simulation
 #endif
+
 
 
 /**
