@@ -1,4 +1,4 @@
-# project
+# Parallelizing the Vicsek Model
 
 ## Getting Started
 To compile and run the main simulation:
