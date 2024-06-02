@@ -28,7 +28,7 @@ openMP: main.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -openmp   -DUSE_OPENMP_FUNCTION -Wall -o $(BIN_DIR)/main_openMP.out main.cc $(BIN_DIR)/simulation.o
 
 # compile the program with MPI
-openMP: main.cc $(BIN_DIR)/simulation.o
+mpi: main.cc $(BIN_DIR)/simulation.o
 	$(CXX) -std=c++11 -openmp   -DUSE_MPI_FUNCTION -Wall -o $(BIN_DIR)/main_openMP.out main.cc $(BIN_DIR)/simulation.o
 
 
