@@ -24,7 +24,14 @@ To compile the OpenMP-enabled version of the simulation:
 make openMP
 ```
 This will compile the main simulation program with OpenMP support.
-Test the Project
+
+
+
+
+```bash
+make mpi
+```
+This will compile the main simulation program with MPI support.
 
 To compile and run the tests:
 
