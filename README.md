@@ -26,8 +26,6 @@ make openMP
 This will compile the main simulation program with OpenMP support.
 
 
-
-
 ```bash
 make mpi
 ```
@@ -41,18 +39,19 @@ make test
 This will compile the test program and execute it.
 Benchmark the Project
 
-To compile and run the benchmarking program:
+To compile the benchmarking program:
 
 ```bash
 make bench
 ```
-This will compile the benchmarking binary and execute it.
-Clean Up
+This will produce a binary named bench.out located in the bin folder.
 
 To remove all compiled binary and object files:
-
 ```bash
-
 make clean
 ```
 This will clean up the bin directory by removing all object files and executables.
+
+
+## View Documentation
+To view the documentation, open the file ``files.html`` in the directory named ``html``.
